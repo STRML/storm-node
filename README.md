@@ -1,7 +1,7 @@
 # storm-node
 
-Simple implementation of [storm-multilang protocol](https://github.com/nathanmarz/storm/wiki/Multilang-protocol)
-for nodeJS apps. Handles reading, emitting, acking, failing, and handshaking.
+Simple implementation of the [Storm-Multilang protocol](https://github.com/nathanmarz/storm/wiki/Multilang-protocol)
+for NodeJS apps. Handles reading, emitting, acking, failing, and handshaking.
 
 At this time, Bolts and Spouts listen to `process.stdin` and write to `process.stdout`; they are meant to be run
 as standalone processes. To override this, change the `input` and `output` properties on your Bolt or Spout.

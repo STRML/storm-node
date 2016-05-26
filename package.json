@@ -2,6 +2,7 @@
   "name": "storm-node",
   "version": "0.2.1",
   "main": "./lib/index.js",
+  "description": "Simple implementation of the Storm-Multilang protocol for NodeJS apps. Handles reading, emitting, acking, failing, and handshaking.",
   "author": "Bryan Peterson",
   "contributors": [
     "Samuel Reed <samuel.trace.reed@gmail.com> (https://github.com/strml)",
