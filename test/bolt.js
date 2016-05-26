@@ -22,12 +22,20 @@ var handshakeMsg = {
 
 var testInput = [
   {
-    id: 0,
+    id: "0",
     tuple: ['This sentence should be split']
   },
   {
-    id: 1,
+    id: "1",
     tuple: ['and so should this.']
+  },
+  // 0.9.3
+  {
+    "id": "-6955786537413359385",
+    "comp": "1",
+    "stream": "__heartbeat",
+    "task": -1,
+    "tuple": []
   }
 ];
 
@@ -52,7 +60,7 @@ describe('Basic splitSentenceBolt tests' , function() {
       data = parseMessage(data)[0];
       assert.equal(data.pid, ssb.pid, "PID should be in message and equal to " + ssb.pid);
       var pidPath = path.resolve(process.cwd(), 'examples/' + handshakeMsg.pidDir + '/' + ssb.pid);
-      assert(fs.existsSync(pidPath), 
+      assert(fs.existsSync(pidPath),
         "Bolt should have written a pidfile to " + pidPath);
       fs.unlinkSync(pidPath);
       done();
@@ -65,8 +73,11 @@ describe('Basic splitSentenceBolt tests' , function() {
 
     // Setup listener on bolt stdout.
     var index = 0;
-    var splitWords = Array.prototype.concat.apply([], testInput.map(function(msg){ return msg.tuple[0].split(' '); }));
+    var splitWords = Array.prototype.concat.apply([], testInput.map(function(msg){
+      return msg.tuple[0] ? msg.tuple[0].split(' ') : [];
+    }));
     var ackSent = false;
+    var syncSent = false;
     ssb.stdout.on('data', function(data) {
       data = parseMessage(data);
 
@@ -78,14 +89,19 @@ describe('Basic splitSentenceBolt tests' , function() {
           assert.equal(datum.tuple[0], splitWords[index], "Output tuple correctly contains a split sentence.");
           // Verify anchors are properly set.
           assert.equal(datum.anchors[0], (index > 4 ? 1 : 0));
-          if (++index === splitWords.length) finish();
-        } 
+          index++;
+        }
 
         else if (datum.command === 'ack') {
           // Ensure an ack was sent at some point.
-          assert(datum.id === 0 || datum.id === 1);
+          assert(datum.id === "0" || datum.id === "1");
           ackSent = true;
-        } 
+        }
+
+        else if (datum.command === 'sync') {
+          syncSent = true;
+          finish();
+        }
 
         else {
           throw new Error("Bolt threw an unexpected message: " + JSON.stringify(datum));
@@ -100,6 +116,8 @@ describe('Basic splitSentenceBolt tests' , function() {
 
     function finish() {
       assert(ackSent);
+      assert(syncSent);
+      assert(index === splitWords.length);
       done();
     }
 
