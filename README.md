@@ -6,6 +6,11 @@ for nodeJS apps. Handles reading, emitting, acking, failing, and handshaking.
 At this time, Bolts and Spouts listen to `process.stdin` and write to `process.stdout`; they are meant to be run
 as standalone processes. To override this, change the `input` and `output` properties on your Bolt or Spout.
 
+| Version  | Compatibility  |
+|----------|----------------|
+|>= 0.2.0  | Storm 0.9.3+   |
+|<= 0.2.0  | Storm <= 0.7.0 |
+
 ## Example
 
 ### Basic Bolt with automatic ack and anchoring
@@ -115,5 +120,5 @@ Bryan Peterson - @lazyshot
 
 ## Contributors
 
-@ssafejava
+@strml
 @jandre
