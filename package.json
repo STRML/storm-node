@@ -4,13 +4,21 @@
   "main": "./lib/index.js",
   "author": "Bryan Peterson",
   "contributors": [
-    "Samuel Reed",
+    "Samuel Reed <samuel.trace.reed@gmail.com> (https://github.com/strml)",
     "Jen Andre"
   ],
   "devDependencies": {
     "mocha": "^1.18.2",
     "precommit-hook": "^0.3.10"
   },
+  "bugs": {
+    "url": "https://github.com/strml/storm-node/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/strml/storm-node"
+  },
+  "license": "MIT",
   "scripts": {
     "test": "mocha"
   }
